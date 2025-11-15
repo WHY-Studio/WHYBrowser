@@ -1,0 +1,30 @@
+{
+  "homepage": "https://www.google.com",
+  "search_engine": "ecosia",
+  "search_engines": {
+    "google": "https://www.google.com/search?q={}",
+    "bing": "https://www.bing.com/search?q={}",
+    "duckduckgo": "https://duckduckgo.com/?q={}"
+  },
+  "theme": {
+    "background": "#ffffff",
+    "accent": "#61afef"
+  },
+  "privacy": {
+    "javascript": true,
+    "cookies": false,
+    "history": true,
+    "stealth": false,
+    "vpn": "Kein VPN",
+    "adblock": true,
+    "fingerprint_protection": false,
+    "force_https": true
+  },
+  "open_tabs": [],
+  "active_tab": 0,
+  "search_suggestions": true,
+  "safe_search": true,
+  "default_incognito": false,
+  "download_folder": "C:/Users/User/Downloads",
+  "max_parallel_downloads": 5
+}

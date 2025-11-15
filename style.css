@@ -1,0 +1,491 @@
+/* ==============================================
+   GLOBALS
+   ============================================== */
+
+/* Beispiel in theme_dark.qss */
+:root {
+    accent-color: {{ACCENT}};
+}
+
+QPushButton:hover {
+    background-color: accent-color;
+}
+
+
+
+
+   QMainWindow {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+}
+
+QWidget {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+}
+
+/* --- Toolbar Styling --- */
+QToolBar {
+    background-color: #2a2a2a;   /* gleiche Farbe wie Suchleisten-Umgebung */
+    border: none;
+    padding: 0px;
+    
+}
+
+/* Optional: etwas helleren Rahmen unten, für Kontrast */
+QToolBar::separator {
+    background-color: #333;
+    width: 1px;
+    margin: 0 0px;
+}
+
+/* Die QLineEdit (Suchleiste) soll sich farblich einfügen */
+QToolBar QLineEdit {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+#TitleBar {
+    background-color: #2a2a2a; /* gleiche Farbe wie Toolbar */
+    border-bottom: 1px solid #333;
+}
+
+
+
+/* ==============================================
+   TOOLBAR
+   ============================================== */
+
+   /* ==============================================
+   ROUNDED NAV BUTTONS
+   ============================================== */
+   QToolBar QToolButton {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 18px;       /* Hälfte von 32px → kreisrund */
+    min-width: 17px;
+    min-height: 28px;
+    max-width: 17px;
+    max-height: 28px;
+    margin-right: 8px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+QToolButton#SettingsButton {
+    margin-left: 50px;  /* Abstand zur Suchleiste */
+}
+
+QTabBar::tab {
+    background-color: #252525;
+    color: #ddd;
+    border-left: 1px solid rgba(255, 255, 255, 0.071);
+    border-top: 1px solid rgba(255, 255, 255, 0.071);
+    border-right: 1px solid rgba(255, 255, 255, 0.071);
+    border-bottom: none;
+    border-top-right-radius:8px; 
+    border-top-left-radius:8px;
+    padding: 6px 14px;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background-color: #2f2f2f;
+    color: #fff;
+    border-left: 1px solid rgba(255, 255, 255, 0.071);
+    border-top: 1px solid rgba(255, 255, 255, 0.071);
+    border-right: 1px solid rgba(255, 255, 255, 0.071);
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom: 2px solid {{ACCENT}} ;
+}
+
+
+QTabBar::tab:hover {
+    background-color: #2a2a2a;
+}
+QTabBar::close-button {
+    image: url("icons/close_tab.svg");
+    subcontrol-position: right;
+
+    width: 50px;
+    height: 50px;
+}
+
+QTabBar::close-button:hover {
+    image: url("icons/close_tab_hover.svg");
+}
+
+
+QToolBar QToolButton:hover {
+    background-color: {{ACCENT}};
+    color: black;
+}
+
+QToolBar QToolButton:pressed {
+    background-color: {{ACCENT}};
+    color: white;
+}
+
+QToolBar {
+    background-color: #2b2b2b;
+    border: none;
+    padding: 4px;
+    spacing: 5px;
+}
+
+
+QToolBar QLineEdit {
+    background-color: #3a3a3a;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 6px 10px;
+    min-width: 400px;
+}
+
+QToolBar QLineEdit:focus {
+    border: 1px solid {{ACCENT}};
+    outline: none;
+}
+
+/* Buttons in Toolbar */
+QToolButton, QPushButton {
+    background-color: #333;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 4px 10px;
+    min-width: 70px;
+    margin-right: 6px;
+}
+
+QToolButton:hover, QPushButton:hover {
+    background-color: #3f3f3f;
+    border: 1px solid {{ACCENT}};
+}
+
+QToolButton:pressed, QPushButton:pressed {
+    background-color: {{ACCENT}};
+    color: black;
+}
+
+/* ==============================================
+   TABS
+   ============================================== */
+QTabWidget::pane {
+    border: 1px solid #444;
+    top: -1px;
+    background-color: #1e1e1e;
+}
+
+
+
+/* ==============================================
+   SIDEBAR
+   ============================================== */
+#Sidebar {
+    background-color: #202020;
+    border-left: 1px solid #333;
+    color: white;
+    padding: 10px;
+}
+
+/* Sidebar Tabs */
+#Sidebar QPushButton {
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin: 6px;
+    min-width: 26px;
+    min-height: 20px;
+    max-height: 20px;
+}
+
+#Sidebar QPushButton:hover {
+    background-color: {{ACCENT}};
+    color: black;
+}
+
+/* Close Button */
+#Sidebar #CloseButton {
+    background-color: #4d4c4c;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 8px;
+    padding: 0;
+    transition: background-color 0.3s ease;
+    font-family: "Segoe UI Symbol"; 
+    font-weight: bold;  
+}
+
+#Sidebar #CloseButton:hover {
+    background-color: #eb8080;
+}
+
+#SidebarTitle {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    padding-left: 10px;
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+
+/* ==============================================
+   SCROLLBARS
+   ============================================== */
+QScrollBar:vertical {
+    background: #2a2a2a;
+    width: 10px;
+    margin: 0px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical {
+    background: #555;
+    border-radius: 5px;
+    min-height: 20px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: {{ACCENT}};
+}
+
+/* ==============================================
+   OVERLAY
+   ============================================== */
+QWidget[objectName="overlay"] {
+    background-color: rgba(0, 0, 0, 150);
+}
+
+/* ==============================================
+   THEMES (optional Light mode)
+   ============================================== */
+.light QMainWindow, .light QWidget {
+    background-color: #f9f9f9;
+    color: #222;
+}
+
+.light QToolBar {
+    background-color: #eaeaea;
+}
+
+.light QLineEdit {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+.light QPushButton {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+.light QPushButton:hover {
+    background-color: #e0e0e0;
+}
+
+#TitleBar QLabel {
+    font-weight: bold;
+    color: white;
+    background: none;
+}
+#UserPopup {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 10px;
+}
+#UserPopup QLabel {
+    color: white;
+    font-size: 13px;
+}
+#UserPopup QPushButton {
+    background-color: #3a3a3a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+#UserPopup QPushButton:hover {
+    background-color: #5a5a5a;
+}
+#ClosePopupBtn {
+    background-color: transparent;
+    border: none;
+    color: #bbb;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 2px;
+}
+#ClosePopupBtn:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+#HistoryPopup {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 10px;
+}
+#HistoryPopup QLabel {
+    color: white;
+    font-size: 13px;
+}
+#HistoryPopup QPushButton {
+    background-color: #3a3a3a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+#HistoryPopup QPushButton:hover {
+    background-color: #5a5a5a;
+}
+QMenu {
+    background-color: #2b2b2b;
+    border: 1px solid #3a3a3a;
+    padding: 5px;
+    color: white;
+    font-size: 13px;
+}
+QMenu::item {
+    padding: 6px 20px;
+}
+QMenu::item:selected {
+    background-color: {{ACCENT}};
+}
+/* --- FAVORITES POPUP --- */
+#FavoritesPopup {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 10px;
+}
+
+#FavoritesPopup QLabel {
+    color: white;
+    font-size: 13px;
+}
+
+#FavoritesTitle {
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+}
+
+#FavoritesPopup QPushButton {
+    background-color: #3a3a3a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+#FavoritesPopup QPushButton:hover {
+    background-color: #5a5a5a;
+}
+
+#FavDeleteBtn {
+    background-color: #3a3a3a;
+    border-radius: 6px;
+    color: white;
+}
+#FavDeleteBtn:hover {
+    background-color: #e74c3c;
+}
+/* === MAIN MENU POPUP === */
+#MainMenuPopup {
+    background-color: #2b2b2b;
+    border: 1px solid #444;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#MainMenuTitle {
+    font-weight: bold;
+    color: white;
+    font-size: 15px;
+}
+
+#MenuButton {
+    background-color: #3a3a3a;
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: left;
+    transition: background-color 0.2s ease;
+}
+
+#MenuButton:hover {
+    background-color: #505050;
+}
+
+#ClosePopupBtn {
+    background-color: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+#ClosePopupBtn:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+#RoundCloseBtn {
+    background-color: #ff5f57;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    width: 24px;
+    height: 24px;
+}
+#RoundCloseBtn:hover {
+    background-color: #ff2d00;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*mode for themes*/
+
+/*dark*/
+
+
+
+
+/*light*/
+

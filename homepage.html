@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>WHY Startseite</title>
+  <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body {
+      background: url('img/Screenshot 2025-11-07 155712.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .info {
+      position: absolute;
+      bottom: 2%;
+      right: 1.3%;
+      background: none;
+      color: white;
+      border: none;
+      font-size: 160%;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .info:hover { color: #9b9b9b; }
+
+    /* Suchfeld */
+    .search_area {
+      background-color: rgba(35, 35, 35, 0.85);
+      width: 90%;
+      max-width: 550px;
+      border-radius: 10px;
+      border: 2px solid white;
+      display: flex;
+      align-items: center;
+      padding: 6px 10px;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Logo-Container */
+    .engine-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(50, 50, 50, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      border: 2px solid white;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .engine-logo:hover { transform: scale(1.05); }
+    .engine-logo img {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+      filter: brightness(1.2);
+    }
+
+    #searchBox {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 20px;
+      outline: none;
+      padding: 10px;
+    }
+
+    .button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.3s;
+      margin-top: 1%;
+    }
+    .button:hover { color: #3b82f6; }
+
+    #favorites-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .fav-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      flex: 1 1 40%;
+      max-width: 200px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .fav-btn:hover {
+      background: rgba(59, 130, 246, 0.5);
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      .search_area {
+        width: 95%;
+        padding: 6px 8px;
+      }
+      #searchBox { font-size: 16px; }
+      .engine-logo { width: 34px; height: 34px; }
+    }
+      #sponsoredPanel .sponsor-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  object-fit: contain;
+  background-color: rgba(35, 35, 35, 0.85);
+  }
+
+  #sponsoredPanel .sponsor-link:hover .sponsor-icon {
+  transform: scale(1.1);
+
+  }
+
+  #sponsoredPanel {
+    display: flex;
+  }
+
+/* Panel */
+#aiChatPanel {
+  position: fixed;
+  left: -650px; /* versteckt links */
+  bottom: 70px;
+  width: 600px;
+  height: 800px;
+  background: #1f1f1f;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  transition: left 0.3s ease;
+  z-index: 2000;
+  overflow: hidden;
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+}
+
+/* Header */
+#aiChatHeader {
+  background: #383838;
+  padding: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius:16px;
+  border-top-right-radius:16px;
+  border-bottom: 2px solid white;
+}
+
+/* Messages */
+#aiChatMessages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* User / AI Bubble */
+.msg {
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 75%;
+}
+.msg.user { background: #3f3f3f; align-self: flex-end; }
+.msg.ai { background: #fff; align-self: flex-start; color: rgb(23, 23, 23); }
+
+/* Typing indicator */
+.typing-indicator {
+  width: 40px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.typing-indicator span {
+  width: 8px; height: 8px;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: inline-block;
+  animation: blink 1.4s infinite both;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* Input */
+#aiChatForm {
+  display: flex;
+  border-top: 1px solid #374151;
+}
+#aiChatInput {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  background: #1f1f1f;
+  color: white;
+  outline: none;
+}
+#aiChatForm button {
+  border: none;
+  background: #3b82f6;
+  color: white;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+
+  /* Optional: kleine Beschriftung unter jedem Icon */
+  /* #sponsoredPanel .sponsor-link span {
+  font-size: 9px;
+  color: #ccc;
+  margin-top: 2px;
+  } */
+
+
+  #aiChatToggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 3000;
+  visibility: hidden;
+}
+#aiChatToggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+}
+#aiCloseBtn {
+  background: #ef4444; /* roter Button */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+}
+#aiCloseBtn:hover {
+  transform: scale(1.2);
+  background: #dc2626;
+}
+
+  </style>
+
+  <script>
+    new QWebChannel(qt.webChannelTransport, function(channel) {
+      window.browserApi = channel.objects.browserApi;
+      loadFavorites();
+      updateSearchLogo();
+    });
+
+    function performSearch(event) {
+      if (event) event.preventDefault();
+      const query = document.getElementById("searchBox").value.trim();
+      if (!query) return;
+      if (window.browserApi) browserApi.search_from_homepage(query);
+      else window.location.href = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
+    }
+
+    async function loadFavorites() {
+      if (!window.browserApi || !browserApi.get_favorites) return;
+      const favorites = await browserApi.get_favorites();
+      const container = document.getElementById("favorites-bar");
+      container.innerHTML = "";
+
+      if (!favorites || favorites.length === 0) {
+        container.innerHTML = "<p style='color:gray;'>Keine Favoriten gespeichert.</p>";
+        return;
+      }
+
+      favorites.slice(0, 5).forEach(fav => {
+        const btn = document.createElement("button");
+        btn.className = "fav-btn";
+        btn.innerHTML = `<i class='fa-solid fa-star'></i> ${fav.title}`;
+        btn.onclick = () => browserApi.open_favorite(fav.url);
+        container.appendChild(btn);
+      });
+    }
+
+    // === Echt-Favicon-Logik ===
+    new QWebChannel(qt.webChannelTransport, function(channel) {
+  window.browserApi = channel.objects.browserApi;
+
+  // Seite initialisieren
+  loadFavorites();
+  updateSearchLogo();
+
+  // 🔥 Live-Update bei Änderung
+  browserApi.searchEngineChanged.connect(function(engine) {
+    updateSearchLogo(engine);
+  });
+});
+
+function updateSearchLogo(engine) {
+  const engineLogo = document.getElementById("searchEngineIcon");
+
+  // Falls kein Parameter (z. B. beim Start), hole aus config über API oder default
+  const engineName = (engine || localStorage.getItem("search_engine") || "duckduckgo").toLowerCase();
+
+  let faviconURL = "";
+  if (engineName.includes("google")) faviconURL = "https://www.google.com/favicon.ico";
+  else if (engineName.includes("bing")) faviconURL = "https://www.bing.com/sa/simg/favicon-2x.ico";
+  else if (engineName.includes("yahoo")) faviconURL = "https://s.yimg.com/rz/l/favicon.ico";
+  else if (engineName.includes("ecosia")) faviconURL = "https://www.ecosia.org/favicon.ico";
+  else faviconURL = "https://duckduckgo.com/favicon.ico";
+
+  const img = document.createElement("img");
+  img.src = faviconURL;
+  img.alt = engineName + " icon";
+  img.onerror = () => img.src = "https://duckduckgo.com/favicon.ico";
+  engineLogo.innerHTML = "";
+  engineLogo.appendChild(img);
+}
+
+  </script>
+  <script>
+new QWebChannel(qt.webChannelTransport, function(channel) {
+  window.browserApi = channel.objects.browserApi;
+
+  loadFavorites();
+
+  // Suchmaschine initial abfragen
+  browserApi.get_search_engine().then(engine => {
+    updateSearchLogo(engine);
+  });
+
+  // Live-Änderungen (wenn im Browser geändert wird)
+  browserApi.searchEngineChanged.connect(function(engine) {
+    updateSearchLogo(engine);
+  });
+});
+
+function updateSearchLogo(engine) {
+  const engineLogo = document.getElementById("searchEngineIcon");
+  const name = (engine || "duckduckgo").toLowerCase();
+  let faviconURL = "";
+
+  if (name.includes("google")) faviconURL = "https://www.google.com/favicon.ico";
+  else if (name.includes("bing")) faviconURL = "https://www.bing.com/sa/simg/favicon-2x.ico";
+  else if (name.includes("yahoo")) faviconURL = "https://s.yimg.com/rz/l/favicon.ico";
+  else if (name.includes("ecosia")) faviconURL = "https://www.ecosia.org/favicon.ico";
+  else faviconURL = "https://duckduckgo.com/favicon.ico";
+
+  const img = document.createElement("img");
+  img.src = faviconURL;
+  img.alt = name + " icon";
+  img.onerror = () => img.src = "https://duckduckgo.com/favicon.ico";
+
+  engineLogo.innerHTML = "";
+  engineLogo.appendChild(img);
+}
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+const aiPanel = document.getElementById('aiChatPanel');
+const aiToggle = document.getElementById('aiChatToggle');
+const aiClose = document.getElementById('aiCloseBtn');
+const aiForm = document.getElementById('aiChatForm');
+const aiInput = document.getElementById('aiChatInput');
+const aiMessages = document.getElementById('aiChatMessages');
+
+aiToggle.addEventListener('click', () => {
+  if(aiPanel.style.left === '10px') aiPanel.style.left = '-650px';
+  else aiPanel.style.left = '10px';
+});
+aiClose.addEventListener('click', () => aiPanel.style.left = '-650px');
+
+aiForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = aiInput.value.trim();
+  if(!msg) return;
+
+  // User Message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'msg user';
+  userMsg.textContent = msg;
+  aiMessages.appendChild(userMsg);
+
+  aiInput.value = '';
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  // Typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'msg ai';
+  typing.innerHTML = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
+  aiMessages.appendChild(typing);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  // Simulierte Antwort (hier ersetzt du mit fetch API)
+  setTimeout(() => {
+    typing.remove();
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'msg ai';
+    aiMsg.textContent = "This is a dummy AI response. Replace with your own AI call!";
+    aiMessages.appendChild(aiMsg);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+  }, 1500);
+});
+});
+
+const aiMessages = document.getElementById('aiChatMessages');
+const aiInput = document.getElementById('aiChatInput');
+const aiForm = document.getElementById('aiChatForm');
+
+aiForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = aiInput.value.trim();
+    if (!msg) return;
+
+    // User message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg user';
+    userMsg.textContent = msg;
+    aiMessages.appendChild(userMsg);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+
+    aiInput.value = '';
+
+    // Typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'msg ai';
+    typing.innerHTML = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
+    aiMessages.appendChild(typing);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+
+    // **Hier: echte AI-Aufruf via Qt backend**
+    if (window.browserApi && browserApi.sendToAI) {
+        const aiResp = await browserApi.sendToAI(msg); // sendToAI muss im Python/Qt backend implementiert sein
+        typing.remove();
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'msg ai';
+        aiMsg.textContent = aiResp;
+        aiMessages.appendChild(aiMsg);
+        aiMessages.scrollTop = aiMessages.scrollHeight;
+    } else {
+        // Fallback
+        setTimeout(() => {
+            typing.remove();
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'msg ai';
+            aiMsg.textContent = "This is a dummy AI response. Replace with your own AI call!";
+            aiMessages.appendChild(aiMsg);
+            aiMessages.scrollTop = aiMessages.scrollHeight;
+        }, 1000);
+    }
+});
+
+  </script>
+  
+  
+
+</head>
+
+<body>
+
+  <!-- Info -->
+  <button class="info">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="25" height="25" fill="none">
+      <circle cx="50" cy="50" r="46" stroke="white" stroke-width="6" fill="none"/>
+      <circle cx="50" cy="32" r="4" fill="white"/>
+      <rect x="47" y="42" width="6" height="28" rx="3" fill="white"/>
+    </svg>
+  </button>
+
+  <!-- Suchleiste -->
+  <form class="search_area" onsubmit="performSearch(event)">
+    <div class="engine-logo" id="searchEngineIcon"><img src="img/ChatGPT Image 15. Nov. 2025, 18_40_27.png" alt=""></div>
+    <input id="searchBox" type="text" placeholder="Search..." />
+    <button class="button" type="submit">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="white" viewBox="0 0 512 512">
+  <path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-80 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6 0-34zM208 336c-70.7 0-128-57.3-128-128S137.3 80 208 80s128 57.3 128 128-57.3 128-128 128z"/>
+</svg>
+
+    </button>
+  </form>
+
+  <!-- Favoriten -->
+  <div id="favorites-bar"></div>
+
+  <div id="clock" style="position:absolute;top:10px;right:20px;font-size:20px;"></div>
+
+  <!-- Sponsored Panel -->
+   
+  
+<div id="sponsoredPanel" style="
+position: fixed;
+top: 10px;
+left: 10px;
+display: flex;
+gap: 20px;
+align-items: center;
+z-index: 1000;
+visibility: hidden;
+">
+
+
+<!-- Beispiel-Sponsor: einfach Bild + Link -->
+<a href="https://www.sponsor1.com" target="_blank" class="sponsor-link">
+<img src="img/google-chrome-svgrepo-com.svg"  class="sponsor-icon">
+</a>
+<a href="https://www.sponsor2.com" target="_blank" class="sponsor-link">
+<img src="img/sponsor2.png" class="sponsor-icon">
+</a>
+<a href="https://www.sponsor3.com" target="_blank" class="sponsor-link">
+<img src="img/sponsor3.png" class="sponsor-icon">
+</a>
+</div>
+
+
+<button id="aiChatToggle">💬</button>
+
+<!-- Chat Panel -->
+<div id="aiChatPanel">
+  <div id="aiChatHeader">
+    AI Chat
+    <button id="aiCloseBtn">&times;</button>
+  </div>
+  <div id="aiChatMessages"></div>
+  <form id="aiChatForm">
+    <input type="text" id="aiChatInput" placeholder="Type a message..." autocomplete="off"/>
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+
+
+
+<script>
+  const madeBy = document.getElementById('madeBy');
+  madeBy.addEventListener('mouseenter', () => {
+      madeBy.style.background = "rgba(59,130,246,0.6)";
+      madeBy.style.transform = "scale(1.05)";
+  });
+  madeBy.addEventListener('mouseleave', () => {
+      madeBy.style.background = "#333";
+      madeBy.style.transform = "scale(1)";
+  });
+  madeBy.addEventListener('click', () => {
+      window.open("https://www.deine-website.de", "_blank");
+  });
+</script>
+
+
+
+
+
+<script>
+function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+
+</body>
+</html>
